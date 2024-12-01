@@ -14,6 +14,9 @@
     <title>معرض الألوان - اكتشف وانسخ رموز الألوان بسهولة</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#007bff">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 </head>
 <body>
     <div class="theme-switch-wrapper">
@@ -44,6 +47,7 @@
                     <option value="cool">الألوان الباردة</option>
                     <option value="pastel">الألوان الباستيل</option>
                     <option value="neutral">الألوان المحايدة</option>
+                    <option value="favorites">المفضلة</option>
                 </select>
             </div>
         </div>
@@ -67,17 +71,65 @@
                         <code id="rgbCode"></code>
                     </div>
                 </div>
-                <button id="copyButton" class="copy-button">
-                    <i class="fas fa-copy"></i> نسخ الرمز
-                </button>
+                <div class="button-group">
+                    <button id="copyButton" class="copy-button">
+                        <i class="fas fa-copy"></i> نسخ الرمز
+                    </button>
+                    <button id="favoriteButton" class="favorite-button">
+                        <i class="fas fa-heart"></i> إضافة للمفضلة
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>تم التطوير بواسطة <a href="https://github.com/Ahmed-San" target="_blank">Ahmed-San</a></p>
+        <p>تم التطوير بواسطة 
+            <a href="https://github.com/Ahmed-San" target="_blank">Ahmed-San</a>
+            و
+            <a href="https://github.com/ab-oo-d" target="_blank">ab-oo-d</a>
+        </p>
     </footer>
 
+    <script>
+        // تسجيل Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
+        // إضافة زر تثبيت التطبيق
+        let deferredPrompt;
+        const addBtn = document.createElement('button');
+        addBtn.style.display = 'none';
+        addBtn.className = 'install-button';
+        addBtn.textContent = 'تثبيت التطبيق';
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            addBtn.style.display = 'block';
+            document.querySelector('.header').appendChild(addBtn);
+        });
+
+        addBtn.addEventListener('click', async () => {
+            if (deferredPrompt !== null) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    deferredPrompt = null;
+                }
+                addBtn.style.display = 'none';
+            }
+        });
+    </script>
     <script src="script.js"></script>
 </body>
 </html>

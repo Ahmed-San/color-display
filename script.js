@@ -48,6 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const rgbCodeElement = document.getElementById('rgbCode');
     const copyButton = document.getElementById('copyButton');
     const themeToggle = document.getElementById('checkbox');
+    const favoriteButton = document.getElementById('favoriteButton');
+    let currentColor = null;
+    let favorites = JSON.parse(localStorage.getItem('favoriteColors') || '[]');
 
     // التحقق من الوضع المظلم المحفوظ
     if (localStorage.getItem('darkMode') === 'true') {
@@ -72,6 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
         colorsArray.forEach(color => {
             const card = document.createElement('div');
             card.className = 'color-card';
+            if (favorites.includes(color.hex)) {
+                card.classList.add('favorite');
+            }
             card.innerHTML = `
                 <div class="color-preview" style="background-color: ${color.hex}"></div>
                 <div class="color-info">
@@ -87,13 +93,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // دالة عرض تفاصيل اللون
     function showColorDetails(color) {
+        currentColor = color;
         colorPreview.style.backgroundColor = color.hex;
         colorNameElement.textContent = color.name;
         hexCodeElement.textContent = color.hex;
         rgbCodeElement.textContent = color.rgb;
         modal.style.display = 'flex';
+        
+        // تحديث حالة زر المفضلة
+        favoriteButton.classList.toggle('active', favorites.includes(color.hex));
+        favoriteButton.innerHTML = favorites.includes(color.hex) ? 
+            '<i class="fas fa-heart"></i> إزالة من المفضلة' :
+            '<i class="fas fa-heart"></i> إضافة للمفضلة';
 
-        // تحريك النافذة المنبثقة
         modal.style.opacity = '0';
         setTimeout(() => {
             modal.style.opacity = '1';
@@ -110,7 +122,12 @@ document.addEventListener('DOMContentLoaded', () => {
                                 color.hex.toLowerCase().includes(searchTerm) ||
                                 color.rgb.toLowerCase().includes(searchTerm);
             
-            const matchesCategory = category === 'all' || color.category === category;
+            let matchesCategory = true;
+            if (category === 'favorites') {
+                matchesCategory = favorites.includes(color.hex);
+            } else {
+                matchesCategory = category === 'all' || color.category === category;
+            }
             
             return matchesSearch && matchesCategory;
         });
@@ -141,6 +158,28 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             closeBtn.click();
+        }
+    });
+
+    // إضافة مستمع حدث لزر المفضلة
+    favoriteButton.addEventListener('click', () => {
+        if (!currentColor) return;
+        
+        const index = favorites.indexOf(currentColor.hex);
+        if (index === -1) {
+            favorites.push(currentColor.hex);
+            favoriteButton.innerHTML = '<i class="fas fa-heart"></i> إزالة من المفضلة';
+        } else {
+            favorites.splice(index, 1);
+            favoriteButton.innerHTML = '<i class="fas fa-heart"></i> إضافة للمفضلة';
+        }
+        
+        favoriteButton.classList.toggle('active');
+        localStorage.setItem('favoriteColors', JSON.stringify(favorites));
+        
+        // تحديث عرض البطاقات إذا كان الفلتر الحالي هو المفضلة
+        if (categoryFilter.value === 'favorites') {
+            filterColors();
         }
     });
 

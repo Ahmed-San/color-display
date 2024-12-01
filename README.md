@@ -12,3 +12,9 @@
 - HTML5
 - CSS3
 - JavaScript
+
+## المطورون
+- [Ahmed-San](https://github.com/Ahmed-San)
+- [ab-oo-d](https://github.com/ab-oo-d)
+
+## الترخيص
