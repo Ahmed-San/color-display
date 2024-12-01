@@ -1101,3 +1101,114 @@ footer a:hover {
         padding: 0.5rem 0;
     }
 }
+
+/* تنسيق شريط الأدوات العلوي */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: var(--card-bg);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.tools-bar {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tool-button {
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.tool-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* تحديث تنسيق بطاقات الألوان */
+.color-card {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--card-bg);
+    transition: transform 0.3s ease;
+}
+
+.color-preview {
+    width: 100%;
+    height: 150px;
+    position: relative;
+}
+
+.color-name {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--card-bg);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.color-actions {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.color-action {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: var(--card-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.color-action:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* تحسينات للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .tools-bar {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .tool-button {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+}
