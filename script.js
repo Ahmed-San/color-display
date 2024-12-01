@@ -1,94 +1,153 @@
 // قائمة الألوان مع معلوماتها
 const colors = [
-    { name: 'أحمر', hex: '#FF0000', rgb: 'rgb(255, 0, 0)' },
-    { name: 'أخضر', hex: '#00FF00', rgb: 'rgb(0, 255, 0)' },
-    { name: 'أزرق', hex: '#0000FF', rgb: 'rgb(0, 0, 255)' },
-    { name: 'أصفر', hex: '#FFFF00', rgb: 'rgb(255, 255, 0)' },
-    { name: 'برتقالي', hex: '#FFA500', rgb: 'rgb(255, 165, 0)' },
-    { name: 'بنفسجي', hex: '#800080', rgb: 'rgb(128, 0, 128)' },
-    { name: 'وردي', hex: '#FFC0CB', rgb: 'rgb(255, 192, 203)' },
-    { name: 'بني', hex: '#A52A2A', rgb: 'rgb(165, 42, 42)' },
-    { name: 'رمادي', hex: '#808080', rgb: 'rgb(128, 128, 128)' },
-    { name: 'أسود', hex: '#000000', rgb: 'rgb(0, 0, 0)' },
-    { name: 'أبيض', hex: '#FFFFFF', rgb: 'rgb(255, 255, 255)' },
-    { name: 'ذهبي', hex: '#FFD700', rgb: 'rgb(255, 215, 0)' },
-    { name: 'فضي', hex: '#C0C0C0', rgb: 'rgb(192, 192, 192)' },
-    { name: 'تركواز', hex: '#40E0D0', rgb: 'rgb(64, 224, 208)' },
-    { name: 'زهري', hex: '#FF69B4', rgb: 'rgb(255, 105, 180)' }
+    // الألوان الأساسية
+    { name: 'أحمر', hex: '#FF0000', rgb: 'rgb(255, 0, 0)', category: 'basic' },
+    { name: 'أخضر', hex: '#00FF00', rgb: 'rgb(0, 255, 0)', category: 'basic' },
+    { name: 'أزرق', hex: '#0000FF', rgb: 'rgb(0, 0, 255)', category: 'basic' },
+    { name: 'أصفر', hex: '#FFFF00', rgb: 'rgb(255, 255, 0)', category: 'basic' },
+    
+    // الألوان الدافئة
+    { name: 'برتقالي', hex: '#FFA500', rgb: 'rgb(255, 165, 0)', category: 'warm' },
+    { name: 'أحمر داكن', hex: '#8B0000', rgb: 'rgb(139, 0, 0)', category: 'warm' },
+    { name: 'برتقالي محمر', hex: '#FF4500', rgb: 'rgb(255, 69, 0)', category: 'warm' },
+    { name: 'برتقالي فاتح', hex: '#FFB347', rgb: 'rgb(255, 179, 71)', category: 'warm' },
+    { name: 'ذهبي', hex: '#FFD700', rgb: 'rgb(255, 215, 0)', category: 'warm' },
+    
+    // الألوان الباردة
+    { name: 'أزرق سماوي', hex: '#87CEEB', rgb: 'rgb(135, 206, 235)', category: 'cool' },
+    { name: 'تركواز', hex: '#40E0D0', rgb: 'rgb(64, 224, 208)', category: 'cool' },
+    { name: 'نيلي', hex: '#4B0082', rgb: 'rgb(75, 0, 130)', category: 'cool' },
+    { name: 'أزرق بحري', hex: '#000080', rgb: 'rgb(0, 0, 128)', category: 'cool' },
+    { name: 'زمردي', hex: '#50C878', rgb: 'rgb(80, 200, 120)', category: 'cool' },
+    
+    // الألوان الباستيل
+    { name: 'وردي فاتح', hex: '#FFB6C1', rgb: 'rgb(255, 182, 193)', category: 'pastel' },
+    { name: 'أخضر نعناعي', hex: '#98FF98', rgb: 'rgb(152, 255, 152)', category: 'pastel' },
+    { name: 'أزرق فاتح', hex: '#ADD8E6', rgb: 'rgb(173, 216, 230)', category: 'pastel' },
+    { name: 'ليلكي', hex: '#E6E6FA', rgb: 'rgb(230, 230, 250)', category: 'pastel' },
+    { name: 'خوخي', hex: '#FFE5B4', rgb: 'rgb(255, 229, 180)', category: 'pastel' },
+    
+    // الألوان المحايدة
+    { name: 'رمادي فاتح', hex: '#D3D3D3', rgb: 'rgb(211, 211, 211)', category: 'neutral' },
+    { name: 'بيج', hex: '#F5F5DC', rgb: 'rgb(245, 245, 220)', category: 'neutral' },
+    { name: 'رمادي داكن', hex: '#A9A9A9', rgb: 'rgb(169, 169, 169)', category: 'neutral' },
+    { name: 'بني فاتح', hex: '#DEB887', rgb: 'rgb(222, 184, 135)', category: 'neutral' },
+    { name: 'رمادي متوسط', hex: '#808080', rgb: 'rgb(128, 128, 128)', category: 'neutral' }
 ];
 
 // تهيئة العناصر
-const colorsGrid = document.getElementById('colorsGrid');
-const searchInput = document.getElementById('searchInput');
-const modal = document.getElementById('colorModal');
-const closeBtn = document.querySelector('.close-btn');
-const colorPreview = document.querySelector('.modal-content .color-preview');
-const colorNameElement = document.getElementById('colorName');
-const hexCodeElement = document.getElementById('hexCode');
-const rgbCodeElement = document.getElementById('rgbCode');
-const copyButton = document.getElementById('copyButton');
+document.addEventListener('DOMContentLoaded', () => {
+    const colorsGrid = document.getElementById('colorsGrid');
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const modal = document.getElementById('colorModal');
+    const closeBtn = document.querySelector('.close-btn');
+    const colorPreview = document.querySelector('.modal-color-preview');
+    const colorNameElement = document.getElementById('colorName');
+    const hexCodeElement = document.getElementById('hexCode');
+    const rgbCodeElement = document.getElementById('rgbCode');
+    const copyButton = document.getElementById('copyButton');
+    const themeToggle = document.getElementById('checkbox');
 
-// دالة لإنشاء بطاقات الألوان
-function createColorCards(colorsArray) {
-    colorsGrid.innerHTML = '';
-    colorsArray.forEach(color => {
-        const card = document.createElement('div');
-        card.className = 'color-card';
-        card.innerHTML = `
-            <div class="color-preview" style="background-color: ${color.hex}"></div>
-            <div class="color-info">
-                <div class="color-name">${color.name}</div>
-                <div class="color-hex">${color.hex}</div>
-            </div>
-        `;
-        
-        // إضافة حدث النقر لفتح النافذة المنبثقة
-        card.addEventListener('click', () => showColorDetails(color));
-        
-        colorsGrid.appendChild(card);
-    });
-}
-
-// دالة لعرض تفاصيل اللون في النافذة المنبثقة
-function showColorDetails(color) {
-    colorPreview.style.backgroundColor = color.hex;
-    colorNameElement.textContent = color.name;
-    hexCodeElement.textContent = color.hex;
-    rgbCodeElement.textContent = color.rgb;
-    modal.style.display = 'block';
-}
-
-// دالة البحث عن الألوان
-function searchColors(query) {
-    const filteredColors = colors.filter(color => 
-        color.name.includes(query) || 
-        color.hex.toLowerCase().includes(query.toLowerCase())
-    );
-    createColorCards(filteredColors);
-}
-
-// إضافة مستمعي الأحداث
-searchInput.addEventListener('input', (e) => searchColors(e.target.value));
-
-closeBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
-});
-
-window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        modal.style.display = 'none';
+    // التحقق من الوضع المظلم المحفوظ
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeToggle.checked = true;
     }
-});
 
-copyButton.addEventListener('click', () => {
-    const hexCode = hexCodeElement.textContent;
-    navigator.clipboard.writeText(hexCode).then(() => {
-        copyButton.textContent = 'تم النسخ!';
-        setTimeout(() => {
-            copyButton.textContent = 'نسخ الرمز';
-        }, 2000);
+    // تبديل الوضع المظلم
+    themeToggle.addEventListener('change', () => {
+        if (themeToggle.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('darkMode', 'true');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('darkMode', 'false');
+        }
     });
-});
 
-// تهيئة العرض الأولي للألوان
-createColorCards(colors);
+    // دالة إنشاء بطاقات الألوان
+    function createColorCards(colorsArray) {
+        colorsGrid.innerHTML = '';
+        colorsArray.forEach(color => {
+            const card = document.createElement('div');
+            card.className = 'color-card';
+            card.innerHTML = `
+                <div class="color-preview" style="background-color: ${color.hex}"></div>
+                <div class="color-info">
+                    <div class="color-name">${color.name}</div>
+                    <div class="color-hex">${color.hex}</div>
+                </div>
+            `;
+            
+            card.addEventListener('click', () => showColorDetails(color));
+            colorsGrid.appendChild(card);
+        });
+    }
+
+    // دالة عرض تفاصيل اللون
+    function showColorDetails(color) {
+        colorPreview.style.backgroundColor = color.hex;
+        colorNameElement.textContent = color.name;
+        hexCodeElement.textContent = color.hex;
+        rgbCodeElement.textContent = color.rgb;
+        modal.style.display = 'flex';
+
+        // تحريك النافذة المنبثقة
+        modal.style.opacity = '0';
+        setTimeout(() => {
+            modal.style.opacity = '1';
+        }, 10);
+    }
+
+    // دالة البحث عن الألوان
+    function filterColors() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const category = categoryFilter.value;
+        
+        const filteredColors = colors.filter(color => {
+            const matchesSearch = color.name.toLowerCase().includes(searchTerm) ||
+                                color.hex.toLowerCase().includes(searchTerm) ||
+                                color.rgb.toLowerCase().includes(searchTerm);
+            
+            const matchesCategory = category === 'all' || color.category === category;
+            
+            return matchesSearch && matchesCategory;
+        });
+
+        createColorCards(filteredColors);
+    }
+
+    // نسخ رمز اللون
+    copyButton.addEventListener('click', () => {
+        const colorCode = hexCodeElement.textContent;
+        navigator.clipboard.writeText(colorCode).then(() => {
+            const originalText = copyButton.innerHTML;
+            copyButton.innerHTML = '<i class="fas fa-check"></i> تم النسخ!';
+            setTimeout(() => {
+                copyButton.innerHTML = originalText;
+            }, 2000);
+        });
+    });
+
+    // إغلاق النافذة المنبثقة
+    closeBtn.addEventListener('click', () => {
+        modal.style.opacity = '0';
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeBtn.click();
+        }
+    });
+
+    // إضافة مستمعي الأحداث
+    searchInput.addEventListener('input', filterColors);
+    categoryFilter.addEventListener('change', filterColors);
+
+    // عرض جميع الألوان عند تحميل الصفحة
+    createColorCards(colors);
+});
