@@ -52,6 +52,40 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentColor = null;
     let favorites = JSON.parse(localStorage.getItem('favoriteColors') || '[]');
 
+    // أزرار الأدوات
+    const colorMixerBtn = document.getElementById('colorMixerBtn');
+    const colorGeneratorBtn = document.getElementById('colorGeneratorBtn');
+    const colorExtractBtn = document.getElementById('colorExtractBtn');
+
+    // نوافذ الأدوات
+    const colorMixerModal = document.getElementById('colorMixerModal');
+    const colorGeneratorModal = document.getElementById('colorGeneratorModal');
+    const colorExtractModal = document.getElementById('colorExtractModal');
+
+    // دمج الألوان
+    const color1Input = document.getElementById('color1');
+    const color2Input = document.getElementById('color2');
+    const color1Text = document.getElementById('color1Text');
+    const color2Text = document.getElementById('color2Text');
+    const mixRatio = document.getElementById('mixRatio');
+    const mixRatioText = document.getElementById('mixRatioText');
+    const mixedColorDisplay = document.getElementById('mixedColorDisplay');
+    const mixedColorCode = document.getElementById('mixedColorCode');
+    const saveMixedColor = document.getElementById('saveMixedColor');
+
+    // مولد الألوان
+    const paletteType = document.getElementById('paletteType');
+    const baseColor = document.getElementById('baseColor');
+    const generatedPalette = document.getElementById('generatedPalette');
+    const saveGeneratedPalette = document.getElementById('saveGeneratedPalette');
+
+    // استخراج الألوان
+    const imageUpload = document.getElementById('imageUpload');
+    const uploadButton = document.getElementById('uploadButton');
+    const imagePreview = document.getElementById('imagePreview');
+    const extractedColors = document.getElementById('extractedColors');
+    const saveExtractedColors = document.getElementById('saveExtractedColors');
+
     // التحقق من الوضع المظلم المحفوظ
     if (localStorage.getItem('darkMode') === 'true') {
         document.documentElement.setAttribute('data-theme', 'dark');
@@ -186,6 +220,206 @@ document.addEventListener('DOMContentLoaded', () => {
     // إضافة مستمعي الأحداث
     searchInput.addEventListener('input', filterColors);
     categoryFilter.addEventListener('change', filterColors);
+
+    // دالة تحويل اللون من HEX إلى RGB
+    function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
+    // دالة تحويل اللون من RGB إلى HEX
+    function rgbToHex(r, g, b) {
+        return '#' + [r, g, b].map(x => {
+            const hex = x.toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+        }).join('');
+    }
+
+    // دالة دمج لونين
+    function mixColors() {
+        const color1 = hexToRgb(color1Input.value);
+        const color2 = hexToRgb(color2Input.value);
+        const ratio = mixRatio.value / 100;
+
+        const mixed = {
+            r: Math.round(color1.r * (1 - ratio) + color2.r * ratio),
+            g: Math.round(color1.g * (1 - ratio) + color2.g * ratio),
+            b: Math.round(color1.b * (1 - ratio) + color2.b * ratio)
+        };
+
+        const mixedHex = rgbToHex(mixed.r, mixed.g, mixed.b);
+        mixedColorDisplay.style.backgroundColor = mixedHex;
+        mixedColorCode.textContent = mixedHex;
+    }
+
+    // دالة إنشاء مجموعة ألوان
+    function generatePalette() {
+        const baseHex = baseColor.value;
+        const baseRgb = hexToRgb(baseHex);
+        const type = paletteType.value;
+        let colors = [];
+
+        switch (type) {
+            case 'monochromatic':
+                colors = Array.from({length: 5}, (_, i) => {
+                    const lightness = 20 + (i * 15);
+                    return `hsl(${baseHsl.h}, ${baseHsl.s}%, ${lightness}%)`;
+                });
+                break;
+            case 'complementary':
+                const complement = `hsl(${(baseHsl.h + 180) % 360}, ${baseHsl.s}%, ${baseHsl.l}%)`;
+                colors = [baseHex, complement];
+                break;
+            case 'analogous':
+                colors = Array.from({length: 5}, (_, i) => {
+                    const hue = (baseHsl.h + (i - 2) * 30 + 360) % 360;
+                    return `hsl(${hue}, ${baseHsl.s}%, ${baseHsl.l}%)`;
+                });
+                break;
+            case 'triadic':
+                colors = [
+                    baseHex,
+                    `hsl(${(baseHsl.h + 120) % 360}, ${baseHsl.s}%, ${baseHsl.l}%)`,
+                    `hsl(${(baseHsl.h + 240) % 360}, ${baseHsl.s}%, ${baseHsl.l}%)`
+                ];
+                break;
+        }
+
+        generatedPalette.innerHTML = '';
+        colors.forEach(color => {
+            const div = document.createElement('div');
+            div.className = 'palette-color';
+            div.style.backgroundColor = color;
+            div.setAttribute('data-color', color);
+            div.addEventListener('click', () => {
+                navigator.clipboard.writeText(color);
+                showNotification('تم نسخ اللون');
+            });
+            generatedPalette.appendChild(div);
+        });
+    }
+
+    // دالة استخراج الألوان من الصورة
+    function extractColors(image) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = image.width;
+        canvas.height = image.height;
+        ctx.drawImage(image, 0, 0);
+
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+        const colorMap = new Map();
+
+        for (let i = 0; i < imageData.length; i += 4) {
+            const r = imageData[i];
+            const g = imageData[i + 1];
+            const b = imageData[i + 2];
+            const hex = rgbToHex(r, g, b);
+            colorMap.set(hex, (colorMap.get(hex) || 0) + 1);
+        }
+
+        const sortedColors = Array.from(colorMap.entries())
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5)
+            .map(([color]) => color);
+
+        extractedColors.innerHTML = '';
+        sortedColors.forEach(color => {
+            const div = document.createElement('div');
+            div.className = 'palette-color';
+            div.style.backgroundColor = color;
+            div.setAttribute('data-color', color);
+            div.addEventListener('click', () => {
+                navigator.clipboard.writeText(color);
+                showNotification('تم نسخ اللون');
+            });
+            extractedColors.appendChild(div);
+        });
+
+        saveExtractedColors.disabled = false;
+    }
+
+    // مستمعات الأحداث
+    colorMixerBtn.addEventListener('click', () => colorMixerModal.style.display = 'flex');
+    colorGeneratorBtn.addEventListener('click', () => colorGeneratorModal.style.display = 'flex');
+    colorExtractBtn.addEventListener('click', () => colorExtractModal.style.display = 'flex');
+
+    // دمج الألوان
+    color1Input.addEventListener('input', () => {
+        color1Text.value = color1Input.value;
+        mixColors();
+    });
+    color2Input.addEventListener('input', () => {
+        color2Text.value = color2Input.value;
+        mixColors();
+    });
+    mixRatio.addEventListener('input', () => {
+        mixRatioText.textContent = mixRatio.value + '%';
+        mixColors();
+    });
+    saveMixedColor.addEventListener('click', () => {
+        const color = {
+            name: 'لون مدموج',
+            hex: mixedColorCode.textContent,
+            rgb: `rgb(${Object.values(hexToRgb(mixedColorCode.textContent)).join(', ')})`,
+            category: 'custom'
+        };
+        colors.push(color);
+        createColorCards([color]);
+        colorMixerModal.style.display = 'none';
+        showNotification('تم حفظ اللون');
+    });
+
+    // مولد الألوان
+    baseColor.addEventListener('input', generatePalette);
+    paletteType.addEventListener('change', generatePalette);
+    saveGeneratedPalette.addEventListener('click', () => {
+        const newColors = Array.from(generatedPalette.children).map(div => ({
+            name: 'لون مولد',
+            hex: div.getAttribute('data-color'),
+            rgb: `rgb(${Object.values(hexToRgb(div.getAttribute('data-color'))).join(', ')})`,
+            category: 'custom'
+        }));
+        colors.push(...newColors);
+        createColorCards(newColors);
+        colorGeneratorModal.style.display = 'none';
+        showNotification('تم حفظ مجموعة الألوان');
+    });
+
+    // استخراج الألوان
+    uploadButton.addEventListener('click', () => imageUpload.click());
+    imageUpload.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    imagePreview.innerHTML = '';
+                    imagePreview.appendChild(img);
+                    extractColors(img);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    saveExtractedColors.addEventListener('click', () => {
+        const newColors = Array.from(extractedColors.children).map(div => ({
+            name: 'لون مستخرج',
+            hex: div.getAttribute('data-color'),
+            rgb: `rgb(${Object.values(hexToRgb(div.getAttribute('data-color'))).join(', ')})`,
+            category: 'custom'
+        }));
+        colors.push(...newColors);
+        createColorCards(newColors);
+        colorExtractModal.style.display = 'none';
+        showNotification('تم حفظ الألوان المستخرجة');
+    });
 
     // عرض جميع الألوان عند تحميل الصفحة
     createColorCards(colors);

@@ -83,6 +83,114 @@
         </div>
     </div>
 
+    <div class="header">
+        <h1>معرض الألوان</h1>
+        <p>اكتشف وانسخ رموز الألوان بسهولة</p>
+        
+        <div class="tools-section">
+            <button id="colorMixerBtn" class="tool-button">
+                <i class="fas fa-palette"></i>
+                دمج الألوان
+            </button>
+            <button id="colorGeneratorBtn" class="tool-button">
+                <i class="fas fa-magic"></i>
+                مولد الألوان
+            </button>
+            <button id="colorExtractBtn" class="tool-button">
+                <i class="fas fa-eye-dropper"></i>
+                استخراج الألوان
+            </button>
+        </div>
+    </div>
+
+    <!-- نافذة دمج الألوان -->
+    <div id="colorMixerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>دمج الألوان</h2>
+            <div class="color-mixer-container">
+                <div class="color-inputs">
+                    <div class="color-input-group">
+                        <label>اللون الأول:</label>
+                        <input type="color" id="color1" value="#ff0000">
+                        <input type="text" id="color1Text" value="#ff0000">
+                    </div>
+                    <div class="color-input-group">
+                        <label>اللون الثاني:</label>
+                        <input type="color" id="color2" value="#0000ff">
+                        <input type="text" id="color2Text" value="#0000ff">
+                    </div>
+                    <div class="mix-controls">
+                        <label>نسبة المزج:</label>
+                        <input type="range" id="mixRatio" min="0" max="100" value="50">
+                        <span id="mixRatioText">50%</span>
+                    </div>
+                </div>
+                <div class="mixed-color-preview">
+                    <div id="mixedColorDisplay"></div>
+                    <div id="mixedColorCode">#7F007F</div>
+                    <button id="saveMixedColor" class="action-button">
+                        <i class="fas fa-save"></i>
+                        حفظ اللون
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة مولد الألوان -->
+    <div id="colorGeneratorModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>مولد الألوان</h2>
+            <div class="color-generator-container">
+                <div class="generator-options">
+                    <div class="option-group">
+                        <label>نوع المجموعة:</label>
+                        <select id="paletteType">
+                            <option value="monochromatic">أحادي اللون</option>
+                            <option value="complementary">متكامل</option>
+                            <option value="analogous">متناسق</option>
+                            <option value="triadic">ثلاثي</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label>اللون الأساسي:</label>
+                        <input type="color" id="baseColor" value="#ff0000">
+                    </div>
+                </div>
+                <div id="generatedPalette" class="generated-palette"></div>
+                <button id="saveGeneratedPalette" class="action-button">
+                    <i class="fas fa-save"></i>
+                    حفظ المجموعة
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة استخراج الألوان -->
+    <div id="colorExtractModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>استخراج الألوان من صورة</h2>
+            <div class="color-extract-container">
+                <div class="upload-section">
+                    <input type="file" id="imageUpload" accept="image/*" hidden>
+                    <button id="uploadButton" class="action-button">
+                        <i class="fas fa-upload"></i>
+                        اختر صورة
+                    </button>
+                </div>
+                <div id="imagePreview" class="image-preview"></div>
+                <div id="extractedColors" class="extracted-colors"></div>
+                <button id="saveExtractedColors" class="action-button" disabled>
+                    <i class="fas fa-save"></i>
+                    حفظ الألوان
+                </button>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p>تم التطوير بواسطة 
             <a href="https://github.com/Ahmed-San" target="_blank">Ahmed-San</a>
