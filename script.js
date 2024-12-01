@@ -423,4 +423,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // عرض جميع الألوان عند تحميل الصفحة
     createColorCards(colors);
+
+    // تهيئة الأزرار الثابتة
+    const themeToggle = document.getElementById('themeToggle');
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    const installBtn = document.getElementById('installBtn');
+
+    // وظيفة تبديل الوضع المظلم
+    themeToggle.addEventListener('click', () => {
+        document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', document.body.dataset.theme);
+        updateThemeIcon();
+    });
+
+    // تحديث أيقونة الوضع المظلم
+    function updateThemeIcon() {
+        const icon = themeToggle.querySelector('i');
+        if (document.body.dataset.theme === 'dark') {
+            icon.className = 'fas fa-sun';
+        } else {
+            icon.className = 'fas fa-moon';
+        }
+    }
+
+    // تهيئة الوضع المظلم من التخزين المحلي
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.dataset.theme = savedTheme;
+    updateThemeIcon();
+
+    // وظيفة زر العودة للأعلى
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // إظهار/إخفاء زر العودة للأعلى
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 200) {
+            scrollTopBtn.style.opacity = '1';
+            scrollTopBtn.style.pointerEvents = 'auto';
+        } else {
+            scrollTopBtn.style.opacity = '0';
+            scrollTopBtn.style.pointerEvents = 'none';
+        }
+    });
+
+    // تهيئة زر التثبيت
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installBtn.style.display = 'flex';
+    });
+
+    installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                installBtn.style.display = 'none';
+            }
+            deferredPrompt = null;
+        }
+    });
 });
