@@ -18,12 +18,19 @@
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 </head>
 <body>
-    <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="checkbox">
-            <input type="checkbox" id="checkbox" />
-            <div class="slider round"></div>
-        </label>
-        <em><i class="fas fa-moon"></i> الوضع الداكن</em>
+    <div class="fixed-buttons">
+        <button class="icon-button floating" id="scrollToTop" title="العودة للأعلى">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+            </label>
+        </div>
+        <button class="icon-button floating" id="installApp" title="تثبيت التطبيق">
+            <i class="fas fa-download"></i>
+        </button>
     </div>
 
     <div class="container">

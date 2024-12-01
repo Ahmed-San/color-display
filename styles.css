@@ -2,10 +2,13 @@
     --primary-color: #4a90e2;
     --secondary-color: #2ecc71;
     --accent-color: #e74c3c;
-    --bg-color: #ffffff;
+    --bg-gradient: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     --text-color: #333333;
     --border-color: #e0e0e0;
-    --card-bg: #f8f9fa;
+    --card-bg: rgba(248, 249, 250, 0.9);
     --shadow-color: rgba(0, 0, 0, 0.1);
     --transition-speed: 0.3s;
 }
@@ -13,9 +16,13 @@
 /* تحسينات عامة */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: var(--bg-color);
+    background: 
+        linear-gradient(45deg, var(--primary-color) 0%, var(--secondary-color) 100%),
+        url('data:image/svg+xml,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.05)"/></svg>');
+    background-attachment: fixed;
     color: var(--text-color);
     transition: background-color var(--transition-speed), color var(--transition-speed);
+    min-height: 100vh;
 }
 
 .header {
@@ -35,19 +42,70 @@ body {
     animation: fadeInDown 1s;
 }
 
+/* تحسين الأيقونات */
+.icon-button {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed);
+    cursor: pointer;
+}
+
+.icon-button:hover {
+    transform: translateY(-2px);
+    background: var(--primary-color);
+    border-color: transparent;
+}
+
+.icon-button i {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    transition: all var(--transition-speed);
+}
+
+.icon-button:hover i {
+    color: white;
+    transform: scale(1.1);
+}
+
+/* تحسين الأزرار الثابتة */
+.fixed-buttons {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 1000;
+}
+
+.theme-switch-wrapper {
+    position: static;
+    transform: none;
+}
+
 /* تحسين البطاقات */
 .color-card {
-    background: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: 0 4px 6px var(--shadow-color);
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 15px;
     overflow: hidden;
-    animation: fadeIn 0.5s;
+    transition: all var(--transition-speed);
 }
 
 .color-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px var(--shadow-color);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
 .color-display {
@@ -92,32 +150,39 @@ body {
 }
 
 .modal-content {
-    background: var(--bg-color);
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 20px;
     animation: slideInUp 0.3s;
 }
 
 /* تحسين شريط البحث */
 .search-box input {
-    border: 2px solid var(--border-color);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    color: var(--text-color);
+    padding: 1rem 1.5rem;
     border-radius: 25px;
-    padding: 0.8rem 1.5rem;
     width: 100%;
     transition: all var(--transition-speed);
 }
 
 .search-box input:focus {
+    background: rgba(255, 255, 255, 0.2);
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    box-shadow: 0 0 15px rgba(74, 144, 226, 0.3);
 }
 
 /* تحسين أدوات الألوان */
 .tool-button {
-    background: var(--card-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
     transition: all var(--transition-speed);
     display: flex;
     align-items: center;
@@ -126,17 +191,26 @@ body {
 
 .tool-button:hover {
     background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    border-color: transparent;
     transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
+}
+
+.tool-button i {
+    font-size: 1.5rem;
+    transition: all var(--transition-speed);
+}
+
+.tool-button:hover i {
+    transform: scale(1.1);
 }
 
 /* تحسينات الوضع المظلم */
 [data-theme="dark"] {
-    --bg-color: #1a1a1a;
+    --glass-bg: rgba(0, 0, 0, 0.2);
+    --glass-border: rgba(255, 255, 255, 0.1);
     --text-color: #ffffff;
-    --border-color: #333333;
-    --card-bg: #2d2d2d;
+    --card-bg: rgba(45, 45, 45, 0.9);
 }
 
 /* تحسينات التحميل */
@@ -189,6 +263,23 @@ body {
         transform: translateY(0);
         opacity: 1;
     }
+}
+
+/* تأثيرات إضافية */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.floating {
+    animation: float 3s ease-in-out infinite;
 }
 
 /* تحسينات التجاوب */
@@ -449,11 +540,13 @@ h1 {
 }
 
 .color-card {
-    background: var(--card-bg);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
     border-radius: 15px;
-    padding: 1rem;
-    box-shadow: 0 4px 6px var(--shadow);
-    transition: all 0.3s ease;
+    overflow: hidden;
+    transition: all var(--transition-speed);
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -461,7 +554,7 @@ h1 {
 
 .color-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px var(--shadow);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
 .color-preview {
@@ -516,10 +609,11 @@ h1 {
 }
 
 .modal-content {
-    background: var(--modal-bg);
-    padding: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     max-width: 500px;
     width: 90%;
 }
@@ -724,9 +818,9 @@ footer a:hover {
 }
 
 .tool-button {
-    background: var(--primary-color);
-    color: white;
-    border: none;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
     padding: 1rem 2rem;
     border-radius: 8px;
     cursor: pointer;
@@ -738,7 +832,8 @@ footer a:hover {
 }
 
 .tool-button:hover {
-    background: var(--primary-color-dark);
+    background: var(--primary-color);
+    border-color: transparent;
     transform: translateY(-2px);
 }
 
