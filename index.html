@@ -19,31 +19,33 @@
 </head>
 <body>
     <nav class="top-nav">
-        <h1>كَلَوني</h1>
-        <div class="nav-tools">
-            <button class="nav-button" id="themeToggle" title="تبديل الوضع المظلم">
+        <div class="nav-buttons">
+            <button id="themeToggle" class="nav-button">
                 <i class="fas fa-moon"></i>
+                <span>الوضع المظلم</span>
             </button>
-            <button class="nav-button" id="colorMixerBtn" title="دمج الألوان">
+            <button id="mixColors" class="nav-button">
                 <i class="fas fa-palette"></i>
+                <span>دمج الألوان</span>
             </button>
-            <button class="nav-button" id="colorGeneratorBtn" title="توليد الألوان">
+            <button id="generateColors" class="nav-button">
                 <i class="fas fa-magic"></i>
+                <span>توليد الألوان</span>
             </button>
-            <button class="nav-button" id="colorExtractBtn" title="استخراج الألوان">
+            <button id="extractColors" class="nav-button">
                 <i class="fas fa-eye-dropper"></i>
+                <span>استخراج الألوان</span>
             </button>
         </div>
-    </nav>
-
-    <main class="container">
-        <div class="search-box">
+        <div class="search-container">
             <input type="text" id="searchInput" placeholder="ابحث عن لون...">
             <button id="searchBtn">
                 <i class="fas fa-search"></i>
             </button>
         </div>
+    </nav>
 
+    <main class="container">
         <div class="filter-options">
             <select id="categoryFilter">
                 <option value="all">جميع الألوان</option>

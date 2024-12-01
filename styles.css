@@ -6,6 +6,8 @@
     --card-bg: rgba(255, 255, 255, 0.9);
     --nav-bg: rgba(255, 255, 255, 0.95);
     --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --button-bg: #fff;
+    --button-hover-bg: #f7f7f7;
 }
 
 [data-theme="dark"] {
@@ -14,6 +16,8 @@
     --card-bg: rgba(30, 30, 30, 0.9);
     --nav-bg: rgba(30, 30, 30, 0.95);
     --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    --button-bg: #333;
+    --button-hover-bg: #444;
 }
 
 /* تنسيقات عامة */
@@ -28,17 +32,14 @@ body {
 
 /* شريط التنقل العلوي */
 .top-nav {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 2rem;
-    background: var(--nav-bg);
-    backdrop-filter: blur(10px);
-    box-shadow: var(--shadow);
+    padding: 1rem 2rem;
+    background-color: var(--nav-bg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
     z-index: 1000;
 }
 
@@ -54,23 +55,33 @@ body {
 }
 
 .nav-button {
-    width: 35px;
-    height: 35px;
-    border-radius: 8px;
-    border: none;
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-color);
-    cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
     font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
+.nav-button i {
+    font-size: 1.2rem;
+}
+
 .nav-button:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background-color: var(--button-hover-bg);
     transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 15px;
+    padding: 10px;
 }
 
 /* المحتوى الرئيسي */
