@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض الألوان</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>معرض الألوان</h1>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="ابحث عن لون...">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="colors-grid" id="colorsGrid">
+            <!-- Colors will be added dynamically via JavaScript -->
+        </div>
+    </div>
+
+    <div class="color-modal" id="colorModal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="color-preview"></div>
+            <div class="color-info">
+                <h2>معلومات اللون</h2>
+                <p>اسم اللون: <span id="colorName"></span></p>
+                <p>رمز HEX: <span id="hexCode"></span></p>
+                <p>رمز RGB: <span id="rgbCode"></span></p>
+                <button id="copyButton">نسخ الرمز</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
