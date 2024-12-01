@@ -18,6 +18,49 @@
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 </head>
 <body>
+    <nav class="top-nav">
+        <h1>كَلَوني</h1>
+        <div class="nav-tools">
+            <button class="nav-button" id="themeToggle" title="تبديل الوضع المظلم">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button class="nav-button" id="colorMixerBtn" title="دمج الألوان">
+                <i class="fas fa-palette"></i>
+            </button>
+            <button class="nav-button" id="colorGeneratorBtn" title="توليد الألوان">
+                <i class="fas fa-magic"></i>
+            </button>
+            <button class="nav-button" id="colorExtractBtn" title="استخراج الألوان">
+                <i class="fas fa-eye-dropper"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="ابحث عن لون...">
+            <button id="searchBtn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
+        <div class="filter-options">
+            <select id="categoryFilter">
+                <option value="all">جميع الألوان</option>
+                <option value="basic">الألوان الأساسية</option>
+                <option value="warm">الألوان الدافئة</option>
+                <option value="cool">الألوان الباردة</option>
+                <option value="pastel">الألوان الباستيل</option>
+                <option value="neutral">الألوان المحايدة</option>
+                <option value="favorites">المفضلة</option>
+            </select>
+        </div>
+
+        <div class="color-grid" id="colorsGrid">
+            <!-- سيتم إضافة بطاقات الألوان هنا -->
+        </div>
+    </main>
+
     <div class="fixed-buttons">
         <button class="fixed-button" id="scrollTopBtn" title="العودة إلى الأعلى">
             <i class="fas fa-arrow-up"></i>
@@ -25,82 +68,6 @@
         <button class="fixed-button" id="installBtn" title="تثبيت التطبيق">
             <i class="fas fa-download"></i>
         </button>
-    </div>
-
-    <header class="header">
-        <div class="top-bar">
-            <div class="logo">
-                <span class="logo-icon">🎨</span>
-                <h1>كَلَوني</h1>
-                <span class="logo-subtitle">منصتك المتكاملة للألوان</span>
-            </div>
-            <div class="tools-bar">
-                <button class="tool-button" id="themeToggle" title="تبديل الوضع المظلم">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <button class="tool-button" id="colorMixerBtn" title="دمج الألوان">
-                    <i class="fas fa-palette"></i>
-                </button>
-                <button class="tool-button" id="colorGeneratorBtn" title="توليد الألوان">
-                    <i class="fas fa-magic"></i>
-                </button>
-                <button class="tool-button" id="colorExtractBtn" title="استخراج الألوان">
-                    <i class="fas fa-eye-dropper"></i>
-                </button>
-            </div>
-        </div>
-        <p>اكتشف وانسخ رموز الألوان بسهولة</p>
-    </header>
-
-    <div class="container">
-        <div class="controls">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="ابحث عن لون...">
-                <i class="fas fa-search"></i>
-            </div>
-            
-            <div class="filter-options">
-                <select id="categoryFilter">
-                    <option value="all">جميع الألوان</option>
-                    <option value="basic">الألوان الأساسية</option>
-                    <option value="warm">الألوان الدافئة</option>
-                    <option value="cool">الألوان الباردة</option>
-                    <option value="pastel">الألوان الباستيل</option>
-                    <option value="neutral">الألوان المحايدة</option>
-                    <option value="favorites">المفضلة</option>
-                </select>
-            </div>
-        </div>
-
-        <div id="colorsGrid"></div>
-    </div>
-
-    <div id="colorModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn"><i class="fas fa-times"></i></span>
-            <div class="modal-color-preview"></div>
-            <div class="color-info">
-                <h2 id="colorName"></h2>
-                <div class="color-codes">
-                    <div class="code-group">
-                        <label><i class="fas fa-hashtag"></i> HEX:</label>
-                        <code id="hexCode"></code>
-                    </div>
-                    <div class="code-group">
-                        <label><i class="fas fa-code"></i> RGB:</label>
-                        <code id="rgbCode"></code>
-                    </div>
-                </div>
-                <div class="button-group">
-                    <button id="copyButton" class="copy-button">
-                        <i class="fas fa-copy"></i> نسخ الرمز
-                    </button>
-                    <button id="favoriteButton" class="favorite-button">
-                        <i class="fas fa-heart"></i> إضافة للمفضلة
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- نافذة دمج الألوان -->
@@ -191,6 +158,34 @@
         </div>
     </div>
 
+    <div id="colorModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn"><i class="fas fa-times"></i></span>
+            <div class="modal-color-preview"></div>
+            <div class="color-info">
+                <h2 id="colorName"></h2>
+                <div class="color-codes">
+                    <div class="code-group">
+                        <label><i class="fas fa-hashtag"></i> HEX:</label>
+                        <code id="hexCode"></code>
+                    </div>
+                    <div class="code-group">
+                        <label><i class="fas fa-code"></i> RGB:</label>
+                        <code id="rgbCode"></code>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button id="copyButton" class="copy-button">
+                        <i class="fas fa-copy"></i> نسخ الرمز
+                    </button>
+                    <button id="favoriteButton" class="favorite-button">
+                        <i class="fas fa-heart"></i> إضافة للمفضلة
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p>تم التطوير بواسطة 
             <a href="https://github.com/Ahmed-San" target="_blank">Ahmed-San</a>
@@ -224,7 +219,7 @@
             e.preventDefault();
             deferredPrompt = e;
             addBtn.style.display = 'block';
-            document.querySelector('.header').appendChild(addBtn);
+            document.querySelector('.top-nav').appendChild(addBtn);
         });
 
         addBtn.addEventListener('click', async () => {
