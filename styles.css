@@ -1,34 +1,380 @@
 :root {
-    --primary-color: #007bff;
-    --background: #f0f2f5;
-    --text-color: #333;
-    --card-bg: white;
-    --modal-bg: white;
-    --shadow: rgba(0, 0, 0, 0.1);
+    --primary-color: #4a90e2;
+    --secondary-color: #2ecc71;
+    --accent-color: #e74c3c;
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --border-color: #e0e0e0;
+    --card-bg: #f8f9fa;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
 }
 
+/* تحسينات عامة */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: 2rem;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header h1 {
+    color: white;
+    margin: 0;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    animation: fadeInDown 1s;
+}
+
+/* تحسين البطاقات */
+.color-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    overflow: hidden;
+    animation: fadeIn 0.5s;
+}
+
+.color-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px var(--shadow-color);
+}
+
+.color-display {
+    height: 150px;
+    transition: transform var(--transition-speed);
+}
+
+.color-display:hover {
+    transform: scale(1.05);
+}
+
+.color-info {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(5px);
+}
+
+/* تحسين الأزرار */
+.button {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.button:hover {
+    background: darken(var(--primary-color), 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+/* تحسين النوافذ المنبثقة */
+.modal {
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: var(--bg-color);
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: slideInUp 0.3s;
+}
+
+/* تحسين شريط البحث */
+.search-box input {
+    border: 2px solid var(--border-color);
+    border-radius: 25px;
+    padding: 0.8rem 1.5rem;
+    width: 100%;
+    transition: all var(--transition-speed);
+}
+
+.search-box input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+/* تحسين أدوات الألوان */
+.tool-button {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    transition: all var(--transition-speed);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.tool-button:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+/* تحسينات الوضع المظلم */
 [data-theme="dark"] {
-    --primary-color: #4a9eff;
-    --background: #1a1a1a;
+    --bg-color: #1a1a1a;
     --text-color: #ffffff;
+    --border-color: #333333;
     --card-bg: #2d2d2d;
-    --modal-bg: #2d2d2d;
-    --shadow: rgba(255, 255, 255, 0.1);
 }
 
+/* تحسينات التحميل */
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--border-color);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* تأثيرات حركية */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* تحسينات التجاوب */
+@media (max-width: 1200px) {
+    .colors-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .color-mixer-container {
+        flex-direction: column;
+    }
+
+    .mixed-color-preview {
+        margin-top: 2rem;
+    }
+
+    .generator-options {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .colors-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .tools-section {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .tool-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 768px) {
+    .colors-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .header {
+        padding: 1rem;
+    }
+
+    .header h1 {
+        font-size: 1.8rem;
+    }
+
+    .search-filter {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .search-box,
+    .filter-options {
+        width: 100%;
+    }
+
+    .color-card {
+        margin: 0;
+    }
+
+    .generated-palette,
+    .extracted-colors {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .color-info {
+        padding: 0.8rem;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 576px) {
+    .colors-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .modal-content {
+        padding: 1rem;
+    }
+
+    .color-input-group input[type="color"],
+    .color-input-group input[type="text"] {
+        width: 100%;
+    }
+
+    #mixedColorDisplay {
+        width: 150px;
+        height: 150px;
+    }
+
+    .generated-palette,
+    .extracted-colors {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .theme-switch-wrapper {
+        left: 1rem;
+        bottom: 1rem;
+    }
+}
+
+/* تحسينات إضافية للأجهزة الصغيرة */
+@media (max-height: 600px) {
+    .modal-content {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .header {
+        padding: 0.5rem;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+}
+
+/* تحسينات للشاشات الكبيرة */
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1320px;
+        margin: 0 auto;
+    }
+
+    .colors-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+/* تحسينات للطباعة */
+@media print {
+    .theme-switch-wrapper,
+    .tools-section,
+    .search-filter,
+    .modal {
+        display: none !important;
+    }
+
+    .colors-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+    }
+
+    .color-card {
+        break-inside: avoid;
+    }
+}
+
+/* تحسينات لوضع الشاشة المظلم */
+@media (prefers-color-scheme: dark) {
+    :root[data-theme="dark"] {
+        --bg-color: #1a1a1a;
+        --text-color: #ffffff;
+        --border-color: #333333;
+        --card-bg: #2d2d2d;
+    }
+}
+
+/* دعم RTL للأجهزة المحمولة */
+@media (max-width: 768px) {
+    [dir="rtl"] .search-filter,
+    [dir="rtl"] .color-info,
+    [dir="rtl"] .button-group {
+        text-align: right;
+    }
+}
+
+/* تحسينات عامة */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-    background: var(--background);
-    min-height: 100vh;
-    padding: 2rem;
-    color: var(--text-color);
-    transition: background-color 0.3s ease;
 }
 
 .container {
@@ -553,183 +899,4 @@ footer a:hover {
 
 .action-button i {
     font-size: 1.2rem;
-}
-
-/* تحسينات التجاوب */
-@media (max-width: 1200px) {
-    .colors-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .color-mixer-container {
-        flex-direction: column;
-    }
-
-    .mixed-color-preview {
-        margin-top: 2rem;
-    }
-
-    .generator-options {
-        flex-direction: column;
-        gap: 1rem;
-    }
-}
-
-@media (max-width: 992px) {
-    .colors-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .tools-section {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .tool-button {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .modal-content {
-        width: 90%;
-        max-width: 600px;
-    }
-}
-
-@media (max-width: 768px) {
-    .colors-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-
-    .header {
-        padding: 1rem;
-    }
-
-    .header h1 {
-        font-size: 1.8rem;
-    }
-
-    .search-filter {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .search-box,
-    .filter-options {
-        width: 100%;
-    }
-
-    .color-card {
-        margin: 0;
-    }
-
-    .generated-palette,
-    .extracted-colors {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .color-info {
-        padding: 0.8rem;
-    }
-
-    .button-group {
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 576px) {
-    .colors-grid {
-        grid-template-columns: repeat(1, 1fr);
-    }
-
-    .modal-content {
-        padding: 1rem;
-    }
-
-    .color-input-group input[type="color"],
-    .color-input-group input[type="text"] {
-        width: 100%;
-    }
-
-    #mixedColorDisplay {
-        width: 150px;
-        height: 150px;
-    }
-
-    .generated-palette,
-    .extracted-colors {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .theme-switch-wrapper {
-        left: 1rem;
-        bottom: 1rem;
-    }
-}
-
-/* تحسينات إضافية للأجهزة الصغيرة */
-@media (max-height: 600px) {
-    .modal-content {
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-
-    .header {
-        padding: 0.5rem;
-    }
-
-    .header h1 {
-        font-size: 1.5rem;
-    }
-}
-
-/* تحسينات للشاشات الكبيرة */
-@media (min-width: 1400px) {
-    .container {
-        max-width: 1320px;
-        margin: 0 auto;
-    }
-
-    .colors-grid {
-        grid-template-columns: repeat(6, 1fr);
-    }
-}
-
-/* تحسينات للطباعة */
-@media print {
-    .theme-switch-wrapper,
-    .tools-section,
-    .search-filter,
-    .modal {
-        display: none !important;
-    }
-
-    .colors-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1rem;
-    }
-
-    .color-card {
-        break-inside: avoid;
-    }
-}
-
-/* تحسينات لوضع الشاشة المظلم */
-@media (prefers-color-scheme: dark) {
-    :root[data-theme="dark"] {
-        --bg-color: #1a1a1a;
-        --text-color: #ffffff;
-        --border-color: #333333;
-        --card-bg: #2d2d2d;
-    }
-}
-
-/* دعم RTL للأجهزة المحمولة */
-@media (max-width: 768px) {
-    [dir="rtl"] .search-filter,
-    [dir="rtl"] .color-info,
-    [dir="rtl"] .button-group {
-        text-align: right;
-    }
 }
